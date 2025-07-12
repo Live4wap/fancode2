@@ -1,0 +1,189 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">      
+<div class="content">
+  
+  <div class="rwd-media">
+     <iframe  name="frame" frameborder="1" src="" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" loading="lazy" allowfullscreen  encrypted-media />      </iframe> </center>
+  </div>
+  
+  
+</div>
+
+<div class="content">
+  
+  <div class="rwd-mediaa">
+    <iframe  src="" width="100%" height="252" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+  </div>
+  
+  
+</div>
+
+
+<div class="group-filter">   <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Search Channels" onkeyup="searchChannels()">
+<select id="group-select" onchange="filterChannels()">
+            <option value="all">ALL </option>
+            <option value='Cricket'>CRICKET</option><option value='Football'> FOOTBALL</option> 
+<option value='Tennis'>TENNIS</option> 
+       </select>
+</div></div>
+<main id="app"></main>
+
+<script>
+
+
+function getData() {
+
+  fetch("https://raw.githubusercontent.com/drmlive/fancode-live-events/main/fancode.json")
+
+    .then(res => {
+
+      return res.json();
+
+    })
+
+    .then(json => {
+
+      console.log(json.data);
+
+      const html  = json.matches
+
+        .map(function(item) {
+
+          return  "<div class='rsz' data-group='"+item.event_category+"'  data-name='"+item.title+"'><a target='frame' href='/pfancode?id="+item.match_id+"'><img class='img'  src='"+item.src +"' height='100px'></img></a><a target='frame' href='/pfancode?id="+item.match_id+"'>"+ item.event_name +"<br>"+ item.match_name +"<br>"+ item.startTime +"<br><button>"+ item.event_category +" <button>"+ item.status +"</button></button></a></div>";
+
+        })
+
+        .join("");
+
+      console.log(html);
+
+      document.querySelector("#app").insertAdjacentHTML("afterbegin", html);
+
+    })
+
+    .catch(error => {
+
+      console.log(error);
+
+    });
+
+}
+
+getData();
+</script>
+
+
+
+<style>
+body{width:100%;background:PapayaWhip;margin:0} 
+.rsz{width:99%;display:inline-block;
+background:fff;
+  line-height: 1;
+  text-decoration: none;
+  color: #333333;
+  font-size: 14px;text-align:center;
+  border-radius: 0px;
+  margin: 1px 1px 1px 1px;
+  height: 220px;
+  font-weight:bold ;
+  border-top: 1px solid #3692e0;
+  border-right: 2px solid #ccc;
+  border-left: 2px solid #ccc;
+  border-bottom: 1px solid #3692e0; transition: 0.5s;
+  box-shadow: inset 0px 0px 3px 2px rgba(142, 139, 139, 0.5);
+vertical-align:middle;vertical-align:middle;align:center;align-items:center;vertical-align:middle;horizontal-align:middle;}
+.img{border: px solid white;border-radius: 1px;align:center;align-items:center;vertical-align:middle;horizontal-align:middle;margin:0px;img-align: center;width:97%;height:110px;image-rendering: auto;margin-right:5px;margin-left:5px; margin-top:10px;margin-bottom:10px}  
+      .rwd-mediaa{
+  position: ;
+  width: 100%;
+  height: 258px;
+  
+}
+
+.rwd-mediaa iframe,
+.rwd-media video {background:#fff;
+  position: ;
+  width: 100%;
+  height: 258px;  
+}
+
+.rwd-media {background:#000000;
+  position:fixed ;
+  width: 100%;
+  height: 1px;
+  
+}
+
+.rwd-media iframe,
+.rwd-media video {background:#000;
+  position: fixed;
+  width: 100%;
+  height:220px ;  left:-2px;
+}
+  
+ .group-filter {background:#A8E4A0;padding:0px;
+            margin-bottom: 0px;
+            text-align: center;position: fixed; 
+        }
+        ..group-filter select {
+            padding: 3px;
+            font-size: 12px;
+            border-radius: 15px;
+            border: 2px solid #A8E4A0;
+            background-color: #fff;
+            color: #333;
+        }
+
+.search-bar input {
+            padding: 3px;
+            font-size: 12px;
+            border-radius: 15px;
+            border: 2px solid #A8E4A0;
+            background-color: #fff;
+            color: #333;
+        }
+        .search-bar {padding: 3px;
+            font-size: 12px;
+            border-radius: 1px;
+            border: 2px solid #A8E4A0;
+            background-color: #A8E4A0;
+            color: #333;position: fixed; width:100%;top:220px
+        }
+
+
+    </style>
+
+    
+    <script>
+        function filterChannels() {
+            var selectedGroup = document.getElementById('group-select').value;
+            var channels = document.querySelectorAll('.rsz');
+            
+            channels.forEach(function(channel) {
+                if (selectedGroup === 'all' || channel.getAttribute('data-group') === selectedGroup) {
+                    channel.style.display = 'inline-block';
+                } else {
+                    channel.style.display = 'none';
+                }
+            });
+        }
+
+        function searchChannels() {
+            var input = document.getElementById('search-input').value.toLowerCase();
+            var channels = document.querySelectorAll('.rsz');
+            
+            channels.forEach(function(channel) {
+                var name = channel.getAttribute('data-name').toLowerCase();
+                if (name.includes(input)) {
+                    channel.style.display = 'inline-block';
+                } else {
+                    channel.style.display = 'none';
+                }
+            });
+        }
+
+        const checkbox = document.getElementById("checkbox");
+        checkbox.addEventListener("change", () => {
+            document.body.classList.toggle("dark-mode");
+        });
+    </script>
